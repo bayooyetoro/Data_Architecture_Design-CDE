@@ -1,0 +1,93 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table Branch {
+  id integer [primary key]
+  name varchar
+  location varchar
+  contact_info varchar
+  created_at timestamp
+}
+
+Table MenuItem {
+  id integer [primary key]
+  name varchar
+  description text
+  price decimal
+  created_at timestamp
+}
+
+Table Inventory {
+  id integer [primary key]
+  branch_id integer
+  menu_item_id integer
+  stock_level integer
+  created_at timestamp
+}
+
+Table Customer {
+  id integer [primary key]
+  name varchar
+  email varchar [unique]
+  phone varchar
+  address text
+  created_at timestamp
+}
+
+Table Orders {
+  id integer [primary key]
+  customer_id integer
+  branch_id integer
+  order_date timestamp
+  total_amount decimal
+  payment_id integer
+  created_at timestamp
+}
+
+Table OrderDetails {
+  id integer [primary key]
+  order_id integer
+  menu_item_id integer
+  quantity integer
+  price decimal
+  created_at timestamp
+}
+
+Table Payment {
+  id integer [primary key]
+  method varchar
+  transaction_id varchar [unique]
+  amount decimal
+  created_at timestamp
+}
+
+Table Promotions {
+  id integer [primary key]
+  name varchar
+  description text
+  discount_percentage decimal
+  created_at timestamp
+}
+
+Table CustomerPromotions {
+  id integer [primary key]
+  customer_id integer
+  promotion_id integer
+  start_date date
+  end_date date
+  created_at timestamp
+}
+
+// Relationships
+Ref: Inventory.branch_id > Branch.id // Each inventory belongs to a branch
+Ref: Inventory.menu_item_id > MenuItem.id // Each inventory record is tied to a menu item
+
+Ref: Orders.customer_id > Customer.id // Each order is placed by a customer
+Ref: Orders.branch_id > Branch.id // Each order is tied to a specific branch
+Ref: Orders.payment_id > Payment.id // Each order has a payment record
+
+Ref: OrderDetails.order_id > Orders.id // Order details reference an order
+Ref: OrderDetails.menu_item_id > MenuItem.id // Each order detail references a menu item
+
+Ref: CustomerPromotions.customer_id > Customer.id // Promotions are linked to a customer
+Ref: CustomerPromotions.promotion_id > Promotions.id // Customer promotions are linked to a promotion
