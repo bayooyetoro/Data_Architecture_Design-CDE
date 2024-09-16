@@ -20,3 +20,11 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER trg_update_inventory
 AFTER INSERT ON OrderDetails
 FOR EACH ROW EXECUTE FUNCTION update_inventory();
+
+
+CREATE OR REPLACE PROCEDURE apply_promotion(p_customer_id INT, p_promotion_id INT) AS $$
+BEGIN
+    INSERT INTO CustomerPromotions (customer_id, promotion_id, start_date, end_date)
+    VALUES (p_customer_id, p_promotion_id, CURRENT_DATE, CURRENT_DATE + INTERVAL '30 days');
+END;
+$$ LANGUAGE plpgsql;
