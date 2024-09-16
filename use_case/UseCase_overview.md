@@ -18,7 +18,7 @@ Key questions that the dimensional model helps answer:
 The **grain** of this fact table is an **individual line item of an order**. Each record represents an item ordered, providing a highly detailed view of sales transactions.
 
 ### Model Overview
-![ModelDesign](use_case/model.png)
+![Model Design](./model.png)
 
 ## 4. Dimensions
 
